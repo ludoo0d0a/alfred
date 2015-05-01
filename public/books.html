@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Backbone/Marionette basic setup with nested views</title>
+        <style type="text/css">
+        body {
+            background: #ffffff;
+        }
+        #AppBase {
+            width: 400px;
+            margin: 10px auto;
+            padding: 0;
+            outline: 1px solid #808080;
+        }
+        #AppContainer {
+            width: 400px;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            width:100%;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            border-bottom: 1px solid #808080;
+        }
+        ul {
+            margin: 1em 0 0 0;
+            padding:0;
+            list-style-type: none;
+            width: 400px;
+        }
+        li {
+            margin-bottom: .5em;
+            padding: 0 0 .5em 1em;
+            border-bottom: 1px solid #dedede;
+        }
+        </style>
+    </head>
+    <body>
+        <!-- Base element for app -->
+        <!--
+            Dont use the BODY element as the base because when the app renders in the BODY
+            it will wipe out the template files before the views can pick them up 
+        -->
+        <div id="AppBase"></div>
+ 
+        <!-- TEMPLATES -->
+        <!-- main layout template -->
+        <script type="text/template" id="layout-template">
+            <h1>Main Template</h1>
+            <div id="regionOne"></div>
+        </script>
+ 
+        <!-- bookItemView template -->
+        <!-- This used the Underscore templating system, which is built into Marionette.js -->
+        <script type="text/template" id="itemView-template">
+            <span><b>Title</b>: <%- title %></span><br/>
+            <span><b>Author</b>: <%- authorLast %>, <%- authorFirst %></span>
+        </script>
+ 
+        <!-- libraries -->
+        <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="node_modules/underscore/underscore-min.js"></script>
+        <script type="text/javascript" src="node_modules/backbone/backbone-min.js"></script>
+        <script type="text/javascript" src="node_modules/backbone.marionette/lib/backbone.marionette.min.js"></script>
+ 
+        <!-- app code -->
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>

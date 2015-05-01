@@ -1,0 +1,83 @@
+{
+  "newdirs": [],
+  "moves": [
+    {
+      "filename": "Elementary S01x03.avi",
+      "basename": "Elementary S01x03.avi",
+      "container": "avi",
+      "series": "Elementary",
+      "title": "x03",
+      "type": "episode",
+      "season": 1,
+      "mimetype": "video/x-msvideo",
+      "success": true
+    },
+    {
+      "filename": "Marvel avengers.1.avi",
+      "basename": "Marvel avengers.1.avi",
+      "container": "avi",
+      "type": "movie",
+      "title": "Marvel avengers 1",
+      "mimetype": "video/x-msvideo",
+      "success": true
+    },
+    {
+      "filename": "Marvel avengers.avi",
+      "basename": "Marvel avengers.avi",
+      "container": "avi",
+      "type": "movie",
+      "title": "Marvel avengers",
+      "mimetype": "video/x-msvideo",
+      "success": true
+    },
+    {
+      "filename": "Marvel avengers.mkv",
+      "basename": "Marvel avengers.mkv",
+      "container": "mkv",
+      "type": "movie",
+      "title": "Marvel avengers",
+      "mimetype": "video/x-matroska",
+      "success": true
+    },
+    {
+      "filename": "New Folder/New Folder.1/Marcel.mkv",
+      "basename": "Marcel.mkv",
+      "container": "mkv",
+      "type": "movie",
+      "title": "Marcel",
+      "mimetype": "video/x-matroska",
+      "success": true
+    },
+    {
+      "filename": "New Folder/New Folder.1/Tete le minator 8.mkv",
+      "basename": "Tete le minator 8.mkv",
+      "container": "mkv",
+      "type": "movie",
+      "title": "Tete le minator 8",
+      "mimetype": "video/x-matroska",
+      "success": true
+    },
+    {
+      "filename": "The Terminator 3.1.mkv",
+      "basename": "The Terminator 3.1.mkv",
+      "container": "mkv",
+      "type": "movie",
+      "title": "The Terminator 3 1",
+      "mimetype": "video/x-matroska",
+      "success": true
+    },
+    {
+      "filename": "The Terminator 3.mkv",
+      "basename": "The Terminator 3.mkv",
+      "container": "mkv",
+      "type": "movie",
+      "title": "The Terminator 3",
+      "mimetype": "video/x-matroska",
+      "success": true
+    }
+  ],
+  "cleans": [
+    null,
+    null
+  ]
+}
