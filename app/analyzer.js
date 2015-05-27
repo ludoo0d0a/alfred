@@ -5,6 +5,7 @@ var path = require('path'),
   fs = require('fs-extra'),
   glob = require('glob'),
   async= require('async'),
+  changeCase = require('change-case'),
   _ = require('lodash'),
   guessit = require('./guessit'),
   tvbanner = require('./tvbanner'),
@@ -90,7 +91,7 @@ exports.analyze = function(opts, req, callback){
           var dirout = settings.path[type];
           
           if (wfile.series){
-            dirout=path.join(dirout, wfile.series);
+            dirout=path.join(dirout, changeCase.titleCase(wfile.series));
             fs.exists(dirout, function(exists){
               if (!exists){
                 console.warn('Will create dir %s',dirout);

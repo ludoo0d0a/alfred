@@ -24,6 +24,7 @@ language: "en"
         if (res && res.banner){
             res.banner = 'http://thetvdb.com/banners/'+res.banner;
         }
+        res.link = 'http://thetvdb.com/?tab=series&id='+res.id;
         next(null, res);
     });
 }
@@ -42,12 +43,27 @@ function findBannerMovie(r, next){
             if (res && res.poster_path){
                 res.banner = config.images.base_url+format+res.poster_path;
             }
+            res.link = 'https://www.themoviedb.org/movie/'+res.id;
             next(null, res);
             //});
         });
     });
        
 }
+function idCreator(o, next){
+    o=o||{};
+    o.badgeclass = 'icon-film';
+    
+    if (o.type==='episode'){
+        o.id = [o.seriesid, o.episodeNumber, o.language].join('_');
+        o.badgeclass='icon-tv';
+    }
+    if (!o.id){
+      o.id = (o.title || o.basename).replace(/\s/g, '_');
+    }
+    next(null, o);
+}
+
 exports.findBanner = function(o, next){
     var r = o;
     if (!o){
@@ -57,11 +73,16 @@ exports.findBanner = function(o, next){
     if (_.isString(o)){
         r = {title: o};
     }
-    
+
     if (r.type ==='episode'){
-        findBannerTvshow(r, next);
+        findBannerTvshow(r, function(err, o){
+            idCreator(o, next);
+        });
+        
     }else{
-        findBannerMovie(r, next);
+        findBannerMovie(r, function(err, o){
+            idCreator(o, next);
+        });
     }
 };
 

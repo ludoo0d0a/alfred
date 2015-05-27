@@ -1,30 +1,40 @@
 {% extends 'layout.swig' %}
 
 {% block content %}
-  <div class="page-header">
-    <h1>{{ title }}</h1>
-  </div>
-  
-  <button id="logbutton" name="logbutton" class="btn btn-primary">Log</button>
-  <button id="scanbutton" name="scanbutton" class="btn btn-info">Scan</button>
-  <button id="movebutton" name="movebutton" class="btn btn-danger">Move</button>
 
 {% endblock %}
 
-{% block main %}
-<div class="_container">
-  <div class="row movieapp">
-    <div id="item-details" class="movies__viewer col-md-9 col-md-push-3"></div>
-    <div class="movies__library col-md-3 col-md-pull-9">
-      <div class="list-group movie-list"></div>
+{% block footer %}
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted">Copyright &copy; Pitaso.com 2015</p>
     </div>
-  </div>
-</div>
+  </footer>
+{% endblock %}
 
- <script type="text/template" id="detail-template">
+{% block tpls %}
+  <script type="text/template" id="movies-template">
+    <div class="row">
+      <button id="logbutton" name="logbutton" class="btn btn-primary">Log</button>
+      <button id="scanbutton" name="scanbutton" class="btn btn-info">Scan</button>
+      <button id="movebutton" name="movebutton" class="btn btn-danger">Move</button>
+    </div>
+    <div class="row movieapp">
+      <div class="movies__library col-md-5">
+        <div class="list-group movie-list"></div>
+      </div>
+      <div id="item-details" class="movies__viewer col-md-7 hidden-xs"></div>
+    </div>
+  </script>
+  
+  <script type="text/template" id="detail-template">
       <div>
         <div class="movies__title">
-          <h1><%- series %> <%- title %> <% if (year) { %><small>(<%- year %>)</small><% } %></h1>
+          <h1>
+            <i class="<%- type %> <%- badgeclass %>"></i>
+            <a href="<%- link %>" target="_blank"><%- series %> <%- title %> <% if (year) { %><small>(<%- year %>)</small><% } %></a>
+            <a href="#movies"><i class="icon-close pull-right visible-xs"></i></a>
+          </h1>
           <p class="lead"><%- filename %></p>
         </div>
   
@@ -43,8 +53,8 @@
   </script>
   
   <script type="text/template" id="item-template">
-    <a class="list-group-item __active" href="#movies/<%- id %>">
-      <span class="badge"><%- type %></span>
+    <a class="list-group-item __active" href="#/movie/<%- id %>">
+      <span class="badge <%- type %>"><i class="<%- badgeclass %>"></i></span>
       <h4 class="list-group-item-heading"><%- series %><%- title %><% if (year) { %><small>(<%- year %>)</small><% } %></h4>
       <p class="list-group-item-text">
         <%- filename %>
@@ -53,61 +63,42 @@
     </a>
   </script>
 
-{% endblock %}
-
-{% block pagination %}
-  <!-- Pagination -->
-  <div class="row text-center">
-      <div class="col-lg-12">
-          <ul class="pagination">
-              <li>
-                  <a href="#">&laquo;</a>
-              </li>
-              <li class="active">
-                  <a href="#">1</a>
-              </li>
-              <li>
-                  <a href="#">2</a>
-              </li>
-              <li>
-                  <a href="#">3</a>
-              </li>
-              <li>
-                  <a href="#">4</a>
-              </li>
-              <li>
-                  <a href="#">5</a>
-              </li>
-              <li>
-                  <a href="#">&raquo;</a>
-              </li>
-          </ul>
-      </div>
-  </div>
-{% endblock %}
-
-{% block header %}
-  <!-- Page Header -->
-  <div class="row">
-      <div class="col-lg-12">
-          <h1 class="page-header">Page Heading
-              <small>Secondary Text</small>
-          </h1>
-      </div>
-  </div>
-  <!-- /.row -->
-{% endblock %}
-
-{% block footer %}
-  <!-- Footer -->
-  <footer>
-      <div class="row">
-          <div class="col-lg-12">
-              <p>Copyright &copy; Your Website 2014</p>
+  <script type="text/template" id="settings-template">
+    <form class="form-horizontal">
+      <fieldset>
+        <legend>Settings</legend>
+        
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="tvshowpath">TVshows path</label>  
+          <div class="col-md-4">
+          <input id="tvshowpath" name="tvshowpath" type="text" placeholder="Path for TVshows" class="form-control input-md" value="<%- path.tvshow %>">
           </div>
-      </div>
-      <!-- /.row -->
-  </footer>
+        </div>
+        
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="moviepath">Movies path</label>  
+          <div class="col-md-4">
+          <input id="moviepath" name="moviepath" type="text" placeholder="Path for movies" class="form-control input-md" value="<%- path.movie %>">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="delay">Delay</label>  
+          <div class="col-md-4">
+          <input id="delay" name="delay" type="text" placeholder="delay" class="form-control input-md" value="<%- delay %>">
+          <span class="help-block">Delay between 2 consecutives scan</span>  
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="col-md-4 col-md-offset-4 ">
+            <button id="savebutton" name="savebutton" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      
+      </fieldset>
+    </form>
+  </script>
 {% endblock %}
 
 {% block headercss %}

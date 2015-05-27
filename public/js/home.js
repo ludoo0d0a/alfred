@@ -1,44 +1,36 @@
 /*global Backbone, _ */
 
-// Load the application once the DOM is ready, using `jQuery.ready`:
 $(function(){
   
-// Backbone.Collection.prototype.save = function (options) {
-//     Backbone.sync("create", this, options);
-// };
-  // Movie Model
-  // ----------
-
-  // Our basic **Movie** model has `title`, `order`, and `done` attributes.
+  var app = {};
+  
   var Movie = Backbone.Model.extend({
-
-    // Default attributes for the movie item.
     defaults: function() {
       return {
-        title: "empty movie...",
+        title: '',
         id:0,
         banner: '',
         Overview: '',
         series: '',
         year: '',
         lead:''
-        //order: Movies.nextOrder(),
-        //done: false
       };
     }
-
-    // // Ensure that each movie created has `title`.
-    // initialize: function() {
-    //   if (!this.get("title")) {
-    //     this.set({"title": this.defaults().title});
-    //   }
-    // },
-
-    // // Toggle the `done` state of this movie item.
-    // toggle: function() {
-    //   this.save({done: !this.get("done")});
-    // }
-
+  });
+  
+  var Settings = Backbone.Model.extend({
+    url :'settings',
+    defaults: function() {
+      return {
+        path: {
+            download: '',
+            tvshow:   '',
+            movie :   ''
+        },
+        delay: '12h',
+        minsize: -1
+      };
+    }
   });
 
   // Movie Collection
@@ -46,106 +38,21 @@ $(function(){
   var MovieList = Backbone.Collection.extend({
     model: Movie,
     url: '/scanner'
-    
-    // // Filter down the list of all movie items that are finished.
-    // done: function() {
-    //   return this.filter(function(movie){ return movie.get('done'); });
-    // },
-
-    // // Filter down the list to only movie items that are still not finished.
-    // remaining: function() {
-    //   return this.without.apply(this, this.done());
-    // },
-
-    // // We keep the Movies in sequential order, despite being saved by unordered
-    // // GUID in the database. This generates the next order number for new items.
-    // nextOrder: function() {
-    //   if (!this.length) return 1;
-    //   return this.last().get('order') + 1;
-    // },
-
-    // // Movies are sorted by their original insertion order.
-    // comparator: function(movie) {
-    //   return movie.get('order');
-    // }
-
   });
-  // Create our global collection of **Movies**.
+  
   var Movies = new MovieList;
-  
-  // var MovieList = Backbone.Collection.extend({ model: Movie, url: '/movies'});
-  // var Movies = new MovieList;
-  // //var Movies = new MovieList({url: '/movies'});
-  
-  var TvshowList = Backbone.Collection.extend({ model: Movie, url: '/tvshows'});
-  var Tvshows = new TvshowList;
-  //var Tvshows = new MovieList({url: '/tvshows'});
 
-  // Movie Item View
-  // --------------
-
-  // The DOM element for a movie item...
   var MovieView = Backbone.View.extend({
-
-    //... is a list tag.
-    //tagName:  "li",
-
-    // Cache the template function for a single item.
     template: _.template($('#item-template').html()),
-
-    // The DOM events specific to an item.
-    events: {
-      // "click .toggle"   : "toggleDone",
-      // "dblclick .view"  : "edit",
-      // "click a.destroy" : "clear",
-      // "keypress .edit"  : "updateOnEnter",
-      // "blur .edit"      : "close"
-    },
-
-    // The MovieView listens for changes to its model, re-rendering. Since there's
-    // a one-to-one correspondence between a **Movie** and a **MovieView** in this
-    // app, we set a direct reference on the model for convenience.
+    
     initialize: function() {
       this.listenTo(this.model, 'change', this.render);
       this.listenTo(this.model, 'destroy', this.remove);
     },
-
-    // Re-render the titles of the movie item.
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
-      // this.$el.toggleClass('done', this.model.get('done'));
-      // this.input = this.$('.edit');
       return this;
     },
-
-    // // Toggle the `"done"` state of the model.
-    // toggleDone: function() {
-    //   this.model.toggle();
-    // },
-
-    // // Switch this view into `"editing"` mode, displaying the input field.
-    // edit: function() {
-    //   this.$el.addClass("editing");
-    //   this.input.focus();
-    // },
-
-    // // Close the `"editing"` mode, saving changes to the movie.
-    // close: function() {
-    //   var value = this.input.val();
-    //   if (!value) {
-    //     this.clear();
-    //   } else {
-    //     this.model.save({title: value});
-    //     this.$el.removeClass("editing");
-    //   }
-    // },
-
-    // // If you hit `enter`, we're through editing the item.
-    // updateOnEnter: function(e) {
-    //   if (e.keyCode == 13) this.close();
-    // }
-
-    // Remove the item, destroy the model.
     clear: function() {
       this.model.destroy();
     }
@@ -153,176 +60,93 @@ $(function(){
   });
   
   var MovieViewDetail = Backbone.View.extend({
-    template:_.template($('#detail-template').html()),
+    template: _.template($('#detail-template').html()),
  
     render:function (eventName) {
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
     }
- 
-});
+  });
+  
+  var SettingsView = Backbone.View.extend({
+    el: $('#ctn'),
+    template: _.template($('#settings-template').html()),
+    
+    events: {
+       'submit form': 'save'
+       //'click #savebutton': 'save'
+    },
       
-  // The Rooter
-  // ---------------
-  var AppRouter = Backbone.Router.extend({
-    routes: {
-        "": "home",
-        "tvshows": "tvshows",
-        "movies": "movies",
-        "movies": "movies",
-        "tvshows/:id": "tvshow",
-        "movies/:id": "movie",
-        "movies/:id": "movie"
+    initialize: function() {
+      this.model = new Settings();
+      //this.listenTo(this.model, 'change', this.render);
+      
+      _.bindAll(this, 'render'); // make sure 'this' refers to this View in the success callback below
+      this.model.fetch({ 
+        success: this.render
+      });
     },
-    tvshows: function(){
-        Tvshows.fetch();
+ 
+    render: function () {
+        $(this.el).html(this.template(this.model.toJSON()));
+        return this;
     },
-    movies: function(){
-        console.log('Router ** movies');
-        Movies.fetch();
-    },
-    home: function() {
-        console.log('Router ** home');
-        Movies.fetch();
-    },
-    movies: function() {
-        console.log('Router ** movies');
-        Movies.fetch();
-    },
-    tvshow: function(id){
-        console.log('Router ** tvshow');
-        var model = Tvshows.get(id);
-        this.showContent(model, 'TVShows');
-    },
-    movie: function(id){
-        console.log('Router ** movie');
-        var model = Movies.get(id);
-        this.showContent(model, 'Movies');
-    },
-    showContent: function(model, title){
-        $('.page-header h1').html(title);
-        if (model){
-          //model = new Movie();
-          var view = new MovieViewDetail({model:model});
-          $('#item-details').html(view.render().el);
-        }
+    
+    save: function(e){
+      e.preventDefault();
+        
+      this.model.save({ 
+        path: {
+          tvshow: $('#tvshowpath', this.$el).val(),
+          movie: $('#moviepath', this.$el).val(),
+        }, 
+        delay: $('#delay', this.$el).val()
+      });
     }
   });
 
-  // The Application
-  // ---------------
-
-  // Our overall **AppView** is the top-level piece of UI.
-  var AppView = Backbone.View.extend({
-
-    // Instead of generating a new element, bind to the existing skeleton of
-    // the App already present in the HTML.
-    //el: $(".movieapp"),
-    el: $('body'),
-
-    // Our template for the line of statistics at the bottom of the app.
-    //statsTemplate: _.template($('#stats-template').html()),
-
-    // Delegated events for creating new items, and clearing completed ones.
+  var MoviesView = Backbone.View.extend({
+    el: $('#ctn'),
+    template: _.template($('#movies-template').html()),
     events: {
-      'click .navbar-nav a.tvshows': 'displayTvshows',
-      'click .navbar-nav a.movies': 'displayMovies',
-      'click .navbar-nav a.movies': 'displayMovies',
       'click #logbutton': 'log',
       'click #scanbutton': 'scan',
       'click #movebutton': 'move'
-      // "keypress #new-movie":  "createOnEnter",
-      // "click #clear-completed": "clearCompleted",
-      // "click #toggle-all": "toggleAllComplete"
+    },
+    initialize: function(options){
+      this.options = options || {};
+      
+      this.listenTo(this.collection, 'add', this.addOne);
+      this.listenTo(this.collection, 'reset', this.addAll);
+      //this.listenTo(this.collection, 'all', this.render);
+      this.listenTo(this.collection, 'change', this.render);
+      this.listenTo(this.collection, 'sync', this.onSync);
+      this.listenTo(this.collection, 'fetch', this.onFetch);
+      this.listenTo(this.collection, 'destroy', this.remove);
+      
+      // this.collection.fetch();
+      this.render();
     },
 
-    // At initialization we bind to the relevant events on the `Movies`
-    // collection, when items are added or changed. Kick things off by
-    // loading any preexisting movies that might be saved in *localStorage*.
-    initialize: function() {
+    render:function () {
+        $(this.el).html(this.template({}));
+        
+        this.$elList = $('.movies__library', this.$el);
+        this.$elDetail = $('.movies__viewer', this.$el);
       
-      this.router = new AppRouter();
-              
-      //this.input = this.$("#new-movie");
-      this.$elList = this.$(".movie-list");
-      this.$elDetail = $('#item-details');
-      //this.allCheckbox = this.$("#toggle-all")[0];
-
-      this.listenTo(Movies, 'add', this.addOne);
-      this.listenTo(Movies, 'reset', this.addAll);
-      this.listenTo(Movies, 'all', this.render);
-      this.listenTo(Movies, 'sync', this.onSync);
-      this.listenTo(Movies, 'fetch', this.onFetch);
-
-      // // Display a loading indication whenever the Collection is fetching.
-      // Movies.on("fetch", function() {
-      //   this.$elList.html('<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div>');
-      // }, this);
-      // // Automatically re-render whenever the Collection is populated.
-      // Movies.on("reset", this.render, this);
-      
-
-      // this.footer = this.$('footer');
-      // this.main = $('#main');
-
-      //Movies.fetch();
-      
-      //call to begin monitoring uri and route changes
-      Backbone.history.stop(); 
-      Backbone.history.start(/*{pushState: true}*/);
-      
-      //this.displayMovies();
-    },
-
-    displayTvshows: function() {
-      this.router.navigate("tvshows", true);
-    },
-    displayMovies: function() {
-      this.router.navigate("movies", true);
-    },
-    displayMovies: function() {
-      this.router.navigate("movies", true);
-    },
-      
-    // // Re-rendering the App just means refreshing the statistics -- the rest
-    // // of the app doesn't change.
-     render: function() {
-    //   // var done = Movies.done().length;
-    //   // var remaining = Movies.remaining().length;
-
-    //   //this.allCheckbox.checked = !remaining;
-      console.log('render');
-    },
-
-    // Add a single movie item to the list by creating a view for it, and
-    // appending its element to the `<ul>`.
-    addOne: function(movie) {
-      console.log('addOne');
-      var view = new MovieView({model: movie});
-      this.$elList.append(view.render().el);
-    },
-
-    // Add all items in the **Movies** collection at once.
-    addAll: function() {
-      console.log('addAll');
-      this.$elList.empty();
-      
-      if (Movies.length===0) {
-        this.$elList.html('<p class="empty bg-warning">No item</p>');
-      }
-      
-      Movies.each(this.addOne, this);
+        this.showMasterDetail(this.options.masterdetail);
+        return this;
     },
     
     log: function() {
       console.log('log');
       this.clear();
-      Movies.fetch({reset: true, data: { op:'log' }});
+      this.collection.fetch({reset: true, data: { op:'log' }});
     },
     scan: function() {
       console.log('scan');
       this.clear();
-      Movies.fetch({reset: true, data: { op:'scan' }});
+      this.collection.fetch({reset: true, data: { op:'scan' }});
     },
     move: function() {
       console.log('move');
@@ -330,8 +154,23 @@ $(function(){
       this.clear();
       //Backbone.sync('create', Movies, {attrs: {scan:1} });
       //Movies.fetch({reset: true, data: { op:'move' }});
-      Movies.fetch({ data: { op:'move' }});
+      this.collection.fetch({ data: { op:'move' }});
     },
+    addOne: function(movie) {
+      console.log('addOne');
+      var view = new MovieView({model: movie});
+      this.$elList.append(view.render().el);
+    },
+    addAll: function() {
+      console.log('addAll');
+      this.$elList.empty();
+      
+      if (this.collection.length===0) {
+        this.$elList.html('<p class="empty bg-warning">No item</p>');
+      }
+      this.collection.each(this.addOne, this);
+    },
+   
     clear: function(){
       this.$elList.empty();
       this.$elDetail.empty();
@@ -346,33 +185,70 @@ $(function(){
       this.$elList.empty();
       this.$elList.html('<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div>');
     },
-   
     
-    // // If you hit return in the main input field, create new **Movie** model,
-    // // persisting it to *localStorage*.
-    // createOnEnter: function(e) {
-    //   if (e.keyCode != 13) return;
-    //   if (!this.input.val()) return;
+    //renderSingleItem
+    show: function(id){
+        var model = this.collection.get(id);
+        if (model){
+          var view = new MovieViewDetail({model:model});
+          $('#item-details', this.$el).html(view.render().el);
+          this.showMasterDetail(true);
+        }
+    },
 
-    //   Movies.create({title: this.input.val()});
-    //   this.input.val('');
-    // },
+    //Toggle master/detail responsive
+    showMasterDetail: function(xs){
+      
+      if (xs){
+        //show detail in xs OVER
+        $('.movies__viewer', this.$el).addClass('hidden-xs');
+        $('.movies__library', this.$el).removeClass('hidden-xs');
+      }else{
+        //show master/detail
+        $('.movies__viewer', this.$el).removeClass('hidden-xs');
+        $('.movies__library', this.$el).addClass('hidden-xs');
+      }
+    },
+ 
+  });
 
-    // // Clear all done movie items, destroying their models.
-    // clearCompleted: function() {
-    //   _.invoke(Movies.done(), 'destroy');
-    //   return false;
-    // },
-
-    // toggleAllComplete: function () {
-    //   var done = false; //this.allCheckbox.checked;
-    //   Movies.each(function (movie) { movie.save({'done': done}); });
-    // }
-
+  var AppView = Backbone.View.extend({
+    el: $('body'),
+    initialize: function() {
+      app.router = new AppRouter();
+      Backbone.history.stop(); 
+      Backbone.history.start(/*{pushState: true}*/);
+    }
   });
   
-
-  // Finally, we kick things off by creating the **App**.
-  var App = new AppView;
+  var AppRouter = Backbone.Router.extend({
+    routes: {
+        "": "movies",
+        // "tvshows": "tvshows",
+        "movies": "movies",
+        "settings": "settings",
+        //"tvshows/:id": "tvshow",
+        "movie/:id": "movie"
+    },
+    movies: function(){
+        console.log('Router ** movies');
+        app.moviesview = new MoviesView({collection: Movies});
+    },
+    movie: function(id){
+        console.log('Router ** movie');
+        if (!app.moviesview){
+          app.moviesview = new MoviesView({collection: Movies});
+        }
+        app.moviesview.show(id);
+    },
+    settings: function(id){
+        console.log('Router ** settings');
+        // var model = null;
+        var view = new SettingsView();
+        // $('#ctn').html(view.render().el);
+    },
+  });
+  
+  app = new AppView();
 
 });

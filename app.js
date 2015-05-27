@@ -28,11 +28,11 @@ nconf.defaults({
 });
 
 var home = require('./routes/home');
-var books = require('./routes/books');
+// var books = require('./routes/books');
 var movies = require('./routes/movies');
-var tvshows = require('./routes/tvshows');
-var livres = require('./routes/livres');
-var todos = require('./routes/todos');
+// var tvshows = require('./routes/tvshows');
+// var livres = require('./routes/livres');
+// var todos = require('./routes/todos');
 var settings = require('./routes/settings');
 
 var app = express();
@@ -59,11 +59,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', home);
 app.use('/settings', settings);
-app.use('/livres', livres);
-app.use('/books', books);
+// app.use('/livres', livres);
+// app.use('/books', books);
 app.use('/movies', movies);
-app.use('/tvshows', tvshows);
-app.use('/todos', todos);
+// app.use('/tvshows', tvshows);
+// app.use('/todos', todos);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

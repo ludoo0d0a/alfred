@@ -5,7 +5,7 @@ var express = require('express'),
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('home', { title: 'Movies/TVShows' });
+  res.render('home', { title: 'Alfred, the movies mover' });
 });
 
 router.get('/scanner', function(req, res) {
