@@ -31,24 +31,27 @@ language: "en"
  
 function findBannerMovie(r, next){
     var format = 'w500';
-    tmdb.configuration(function(err, res){
-        var config = res;
-        tmdb.search.movie(r.title, function(err, response) {
-        //MovieDB.searchMovie({query: r.title}, function(err, response) {
-            var movie = response.results && response.results[0];
-            //original_title, poster_path
-            //tmdb.movie.info(res.id, function(err, movie){
-            //MovieDB.movieInfo({id: response.id}, function(err, movie){
-            var res = _.merge(r, movie);
-            if (res && res.poster_path){
-                res.banner = config.images.base_url+format+res.poster_path;
-            }
-            res.link = 'https://www.themoviedb.org/movie/'+res.id;
-            next(null, res);
-            //});
+    try{
+        tmdb.configuration(function(err, res){
+            var config = res;
+            tmdb.search.movie(r.title, function(err, response) {
+            //MovieDB.searchMovie({query: r.title}, function(err, response) {
+                var movie = response.results && response.results[0];
+                //original_title, poster_path
+                //tmdb.movie.info(res.id, function(err, movie){
+                //MovieDB.movieInfo({id: response.id}, function(err, movie){
+                var res = _.merge(r, movie);
+                if (res && res.poster_path){
+                    res.banner = config.images.base_url+format+res.poster_path;
+                }
+                res.link = 'https://www.themoviedb.org/movie/'+res.id;
+                next(null, res);
+                //});
+            });
         });
-    });
-       
+    } catch(e){
+           next(e, null);
+    }
 }
 function idCreator(o, next){
     o=o||{};

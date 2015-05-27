@@ -94,7 +94,8 @@ body > .container {
 }
 */
 .movieapp {
-  margin: 30px auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 .movie-list .progress {
   margin: 40px auto;

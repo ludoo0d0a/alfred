@@ -61,10 +61,18 @@ $(function(){
   
   var MovieViewDetail = Backbone.View.extend({
     template: _.template($('#detail-template').html()),
+    
+    events: {
+      'click .close' : 'close'
+    },
  
-    render:function (eventName) {
+    render: function (eventName) {
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
+    },
+    
+    close: function(){
+      app.moviesview.showMasterDetail(false);
     }
   });
   
@@ -124,11 +132,13 @@ $(function(){
       this.listenTo(this.collection, 'fetch', this.onFetch);
       this.listenTo(this.collection, 'destroy', this.remove);
       
-      // this.collection.fetch();
+      //this.collection.fetch();
+      
       this.render();
     },
 
     render:function () {
+        //no data, it's just a container + toolbar
         $(this.el).html(this.template({}));
         
         this.$elList = $('.movies__library', this.$el);
@@ -191,25 +201,39 @@ $(function(){
         var model = this.collection.get(id);
         if (model){
           var view = new MovieViewDetail({model:model});
-          $('#item-details', this.$el).html(view.render().el);
+          $('.movies__viewer', this.$el).html(view.render().el);
           this.showMasterDetail(true);
         }
     },
 
     //Toggle master/detail responsive
     showMasterDetail: function(xs){
-      
-      if (xs){
+      if (!xs){
         //show detail in xs OVER
-        $('.movies__viewer', this.$el).addClass('hidden-xs');
-        $('.movies__library', this.$el).removeClass('hidden-xs');
+        $('.movies__library', this.$el).removeClass('hidden-xs hidden-sm');
+        $('.movies__viewer', this.$el).addClass('hidden-xs hidden-sm');
       }else{
         //show master/detail
-        $('.movies__viewer', this.$el).removeClass('hidden-xs');
-        $('.movies__library', this.$el).addClass('hidden-xs');
+        $('.movies__library', this.$el).addClass('hidden-xs hidden-sm');
+        $('.movies__viewer', this.$el).removeClass('hidden-xs hidden-sm');
       }
     },
- 
+    
+    load: function(id){
+      var me =this;
+      if (this.collection.length>0){
+        me.show(id);
+      }else{
+        //reload
+        this.collection.fetch({ 
+          success: function(){
+            if (id){
+              me.show(id);
+            }
+          }
+        });
+      }
+    }
   });
 
   var AppView = Backbone.View.extend({
@@ -232,23 +256,25 @@ $(function(){
     },
     movies: function(){
         console.log('Router ** movies');
-        app.moviesview = new MoviesView({collection: Movies});
+        if (!app.moviesview){
+          app.moviesview = new MoviesView({collection: Movies});
+        }
+        app.moviesview.load();
     },
+
     movie: function(id){
         console.log('Router ** movie');
         if (!app.moviesview){
           app.moviesview = new MoviesView({collection: Movies});
         }
-        app.moviesview.show(id);
+        app.moviesview.load(id);
     },
     settings: function(id){
         console.log('Router ** settings');
-        // var model = null;
         var view = new SettingsView();
-        // $('#ctn').html(view.render().el);
     },
   });
   
-  app = new AppView();
+  app.view = new AppView();
 
 });

@@ -23,17 +23,17 @@
       <div class="movies__library col-md-5">
         <div class="list-group movie-list"></div>
       </div>
-      <div id="item-details" class="movies__viewer col-md-7 hidden-xs"></div>
+      <div class="movies__viewer col-md-7 hidden-xs hidden-sm"></div>
     </div>
   </script>
   
   <script type="text/template" id="detail-template">
-      <div>
+      <div class="list-group-item detail">
         <div class="movies__title">
           <h1>
             <i class="<%- type %> <%- badgeclass %>"></i>
             <a href="<%- link %>" target="_blank"><%- series %> <%- title %> <% if (year) { %><small>(<%- year %>)</small><% } %></a>
-            <a href="#movies"><i class="icon-close pull-right visible-xs"></i></a>
+            <button type="button" class="close hidden-md hidden-lg" data-dismiss="movies__viewer" aria-label="Close"><span aria-hidden="true">×</span></button>
           </h1>
           <p class="lead"><%- filename %></p>
         </div>
