@@ -6,21 +6,21 @@ var gulp = require('gulp'),
   rename = require('gulp-rename');
 
 gulp.task('less', function () {
-  gulp.src('./public/css/*.less')
+  gulp.src('./public/less/*.less')
     .pipe(less())
     .pipe(gulp.dest('./public/css'))
     .pipe(livereload());
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./public/css/*.less', ['less']);
+  gulp.watch('./public/less/*.less', ['less']);
 });
 
 gulp.task('develop', function () {
   livereload.listen();
   nodemon({
     script: 'bin/www',
-    ext: 'js swig coffee',
+    ext: 'js swig',
   }).on('restart', function () {
     setTimeout(function () {
       livereload.changed(__dirname);

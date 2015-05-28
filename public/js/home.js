@@ -248,18 +248,13 @@ $(function(){
   var AppRouter = Backbone.Router.extend({
     routes: {
         "": "movies",
-        // "tvshows": "tvshows",
         "movies": "movies",
         "settings": "settings",
-        //"tvshows/:id": "tvshow",
         "movie/:id": "movie"
     },
     movies: function(){
         console.log('Router ** movies');
-        if (!app.moviesview){
-          app.moviesview = new MoviesView({collection: Movies});
-        }
-        app.moviesview.load();
+        app.moviesview = new MoviesView({collection: Movies});
     },
 
     movie: function(id){
