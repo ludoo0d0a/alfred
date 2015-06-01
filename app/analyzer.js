@@ -5,13 +5,14 @@ var path = require('path'),
   fs = require('fs-extra'),
   glob = require('glob'),
   async= require('async'),
+  path= require('path'),
   changeCase = require('change-case'),
   _ = require('lodash'),
   guessit = require('./guessit'),
   tvbanner = require('./tvbanner'),
   jsonfile = require('jsonfile');
 
-var DB_PATH = '../data/db.json'; //db.json
+var DB_PATH = path.join(__dirname, '/../data/db.json'); //db.json
 
 function printout(res, err, files){
   if (err){

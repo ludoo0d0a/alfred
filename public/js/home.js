@@ -105,6 +105,7 @@ $(function(){
         
       this.model.save({ 
         path: {
+          download: $('#downloadpath', this.$el).val(),
           tvshow: $('#tvshowpath', this.$el).val(),
           movie: $('#moviepath', this.$el).val(),
         }, 

@@ -16,6 +16,7 @@ router.post('/', function(req, res) {
   var settings = getSettings(req);
     var r= req.body, o = {
       path: {
+          download: (r.path && r.path.download) || '',
           tvshow: (r.path && r.path.tvshow) || '',
           movie : (r.path && r.path.movie) || ''
       },
