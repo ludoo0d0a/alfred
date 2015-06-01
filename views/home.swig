@@ -81,6 +81,13 @@
           <input id="moviepath" name="moviepath" type="text" placeholder="Path for movies" class="form-control input-md" value="<%- path.movie %>">
           </div>
         </div>
+         
+		<div class="form-group">
+          <label class="col-md-4 control-label" for="downloadpath">Download path</label>  
+          <div class="col-md-4">
+          <input id="moviepath" name="downloadpath" type="text" placeholder="Path for download" class="form-control input-md" value="<%- path.download %>">
+          </div>
+        </div>
         
         <div class="form-group">
           <label class="col-md-4 control-label" for="delay">Delay</label>  
