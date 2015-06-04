@@ -9,9 +9,9 @@
   "watch"            : true,
   "ignore_watch"      : ["[\\/\\\\]\\./", "node_modules"],
   "merge_logs"       : true,
-  "autorestart"      : true,
+  "autorestart"      : false,
   "env": {
-    "NODE_ENV": "production",
+    "NODE_ENV": "development",
     "PORT": "3001"
   }
 }

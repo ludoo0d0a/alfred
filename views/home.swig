@@ -85,7 +85,7 @@
 		<div class="form-group">
           <label class="col-md-4 control-label" for="downloadpath">Download path</label>  
           <div class="col-md-4">
-          <input id="moviepath" name="downloadpath" type="text" placeholder="Path for download" class="form-control input-md" value="<%- path.download %>">
+          <input id="downloadpath" name="downloadpath" type="text" placeholder="Path for download" class="form-control input-md" value="<%- path.download %>">
           </div>
         </div>
         

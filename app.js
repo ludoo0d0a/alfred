@@ -1,5 +1,4 @@
 
-
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -11,15 +10,15 @@ var nconf = require('nconf');
 
 // First consider commandline arguments and environment variables, respectively.
 nconf.argv().env();
-nconf.use('file', { file: './config.json' });
+nconf.use('file', { file: path.join(__dirname, 'data/config.json') });
 nconf.load();
 // Provide default values for settings not provided above.
 nconf.defaults({
     settings: {
         path: {
-            download: '/home/ubuntu/workspace/a_movies/download/',
-            tvshow:   '/home/ubuntu/workspace/a_movies/tvshows/',
-            movie :   '/home/ubuntu/workspace/a_movies/movies/'
+            download: '/volume1/download/',
+            tvshow:   '/volume1/tvshows/',
+            movie :   '/volume1/movies/'
         },
         delay: "12h",
         minsize: 50,
@@ -28,11 +27,7 @@ nconf.defaults({
 });
 
 var home = require('./routes/home');
-// var books = require('./routes/books');
 var movies = require('./routes/movies');
-// var tvshows = require('./routes/tvshows');
-// var livres = require('./routes/livres');
-// var todos = require('./routes/todos');
 var settings = require('./routes/settings');
 
 var app = express();
@@ -59,11 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', home);
 app.use('/settings', settings);
-// app.use('/livres', livres);
-// app.use('/books', books);
 app.use('/movies', movies);
-// app.use('/tvshows', tvshows);
-// app.use('/todos', todos);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

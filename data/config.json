@@ -1,0 +1,11 @@
+{
+  "settings": {
+    "path": {
+      "download": "/volume1/video/download/",
+      "tvshow": "/volume1/series/",
+      "movie": "/volume1/movies/"
+    },
+    "delay": "12h",
+    "minsize": -1
+  }
+}
