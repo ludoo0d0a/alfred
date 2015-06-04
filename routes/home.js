@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/scanner', function(req, res) {
- var op =  req.query.op;
+ var op = req.query.op;
  analyzer.execute({op:op}, req, res);
 });
 
