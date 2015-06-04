@@ -1,0 +1,17 @@
+{
+  "custom": {
+    "path": {
+      "tvshow": "/home/ubuntu/workspace/a_movies/tvshows/",
+      "movie": "/home/ubuntu/workspace/a_movies/movies/"
+    },
+    "delay": "13h"
+  },
+  "settings": {
+    "path": {
+      "tvshow": "/home/ubuntu/workspace/a_movies/tvshows/",
+      "movie": "/home/ubuntu/workspace/a_movies/movies/"
+    },
+    "delay": "14h",
+    "minsize": -1
+  }
+}
