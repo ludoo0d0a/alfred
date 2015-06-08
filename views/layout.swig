@@ -32,6 +32,7 @@
   <script src="/components/jquery/dist/jquery.min.js"></script>
   <script src="/components/underscore/underscore-min.js"></script>
   <script src="/components/backbone/backbone.js"></script>
+  <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
   
   <script src="/js/bbhack.js"></script>
 
