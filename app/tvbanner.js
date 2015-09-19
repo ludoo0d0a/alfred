@@ -1,8 +1,9 @@
+'use strict'
 
 var TVDBClient = require("node-tvdb"),
-    _ = require("lodash"),
-    tvdb = new TVDBClient(process.env.TVDB_KEY || "5665D3A6E50F1BBB"),
-    MovieDB = require('moviedb')(process.env.TMDB_KEY || 'c6bf52a42e8b231bfc29314d0f99cbd3'),
+     tvdb = new TVDBClient(process.env.TVDB_KEY || "5665D3A6E50F1BBB");
+//var MovieDB = require('moviedb')(process.env.TMDB_KEY || 'c6bf52a42e8b231bfc29314d0f99cbd3');
+var _ = require("lodash"),
     tmdb = require('tmdbv3').init(process.env.TMDB_KEY || 'c6bf52a42e8b231bfc29314d0f99cbd3');
 
 function findBannerTvshow(r, next){

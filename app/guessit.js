@@ -1,3 +1,5 @@
+'use strict'
+
 var request = require('request'),
   path = require('path'),
   _ = require('lodash');

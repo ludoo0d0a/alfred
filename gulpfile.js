@@ -69,3 +69,7 @@ gulp.task('standalone', [
   'develop',
   'watch'
 ]);
+
+gulp.task('default', [
+  'less'
+]);

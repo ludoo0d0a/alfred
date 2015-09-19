@@ -1,3 +1,5 @@
+'use strict'
+
 //
 // https://mediahome-ludoo0d0a.c9.io/books/analyze
 //
