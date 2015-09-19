@@ -26,6 +26,7 @@ function printout(res, err, files){
 
 exports.execute = function(opts, req, res){
   var op = opts.op;
+  console.log('Start execute op=', op);
   if (op === 'scan' || op ==='move'){
     this.analyze({op:op}, req, function(err, results){
       printout(res, err, results);
@@ -55,14 +56,19 @@ exports.analyze = function(opts, req, callback){
       app = req.app, 
       dirTocleans=[], 
       settings = app.nconf.get('settings'),
-      okMove = opts && opts.move;
+      okMove = opts && opts.op==='move';
+
+	console.log('Start analyze opts=', opts);
 
     function scan(next){
       var dir = settings.path.download;
       
-      glob('**/*.{mkv,avi}', {cwd:dir}, function (err, files) {
+      console.log('Start scan %s', okMove);
+      
+      glob('**/*.{mkv,avi,mp4,wmv}', {cwd:dir}, function (err, files) {
         var movies = files;
         if (err){
+        	
           console.error('glob search failed', err);
           //No result / error
           movies = [];
@@ -75,16 +81,19 @@ exports.analyze = function(opts, req, callback){
           }
         }
         
+        console.log('### Found %d movies', movies.length);
+        
         next(null, movies);
       });
     }
   
     function detectFiles(files, next){
+      console.log('Start detectfiles');
       async.map(files, guessit.guess, next);
     }
   
     function moveFiles(wfiles, next){
-      
+      console.log('Start movefiles okMove=',okMove);
       var type='', newdirs=[], moves = [];
       var dir = settings.path.download;
       
@@ -110,28 +119,32 @@ exports.analyze = function(opts, req, callback){
           wfile.dest = dest;
           wfile.status='ready';
 
-          console.warn('Will move file %s to %s',f , dest);
+          //console.warn('Will move file %s to %s',f , dest);
           //moves.push(async.apply(fs.move, dir+wfile.filename, dest));
           moves.push(function(next){
+              console.log('move (%s) %s ', okMove, dest);
+              
               fs.exists(dest, function(err){
                 if (err){
                   //TODO: if already exists err.code=='EEXIST'
-                  console.error(err);
+                  console.error('Exists : Destination %s already exists or error', dest, err);
                   wfile.error = {code:err.code};
                 }
                 wfile.destexists = !err;
                 wfile.status='exists';
 
                 if (okMove){
+                  console.log('file move %s to %s ', f, dest);
                   //overwrite?
                   //var overwrite = wfile.destexists;
                   fs.move(f, dest, {clobber: false}, function(err){
                     if (err){
                       //TODO: if already exists err.code=='EEXIST'
-                      console.error(err);
+                      console.error('Move : %s to %s', f, dest, err);
                       wfile.error = {code:err.code};
                       wfile.status='exists';
                     }else{
+                      console.log('file moved - %s ', dest);
                       wfile.status='moved';
                     }
                     
@@ -161,20 +174,33 @@ exports.analyze = function(opts, req, callback){
       });
       
       async.series({
+        _newdirs: function(next){
+        	console.log('start newdirs');
+        	next();
+        },
         //Create dirs
         newdirs: async.apply(async.parallel, newdirs), 
+        _moves: function(next){
+        	console.log('start moves');
+        	next();
+        },
         //then move files
         moves: async.apply(async.parallel, moves),
+        _cleans: function(next){
+        	console.log('start cleans');
+        	next();
+        },
         //then clean dirs
-        cleans: async.apply(async.parallel, dirTocleans),
+        cleans: async.apply(async.parallel, dirTocleans)
       }, function(err, r){
+        console.log('dir manip done, err=', err);
         //Return successed/moved files
         next(err, err?{}:r);
       });
     }
     
     function savelog(r, next){
-      
+      console.log('save log');
       r.date = new Date();
       
       if (!_.isEmpty(r.moves)){
@@ -191,7 +217,6 @@ exports.analyze = function(opts, req, callback){
     }
     
     async.waterfall([scan, detectFiles, moveFiles, savelog, formatOutput], callback);
-
 };
 
 function formatOutput(r, next){
