@@ -6,9 +6,9 @@ var request = require('request'),
 
 exports.guess = function(filename, next){
     var basename = path.basename(filename); 
-    console.log('guess ', filename);
+    //console.log('guess ', filename);
     request('http://guessit.io/guess?filename='+basename, function (error, response, body) {
-      console.log('...guessed ', filename);
+      //console.log('...guessed ', filename);
       if (!error && response.statusCode == 200) {
         var json = JSON.parse(body);
         var o = _.merge({filename:filename, basename:basename}, json);
