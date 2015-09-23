@@ -22,9 +22,7 @@ exports.guess = function(filename, next){
          
         }
         //movie
-        o.lead = o.Network||''; {
-          next({error:error, })
-        }
+        o.lead = o.Network||''; 
         next(null, o);
       }else{
         next({error:error, statusCode:response.statusCode});
