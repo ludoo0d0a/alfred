@@ -1,13 +1,13 @@
 'use strict'
 
 var TVDBClient = require("node-tvdb"),
-     tvdb = new TVDBClient(process.env.TVDB_KEY || "5665D3A6E50F1BBB");
-//var MovieDB = require('moviedb')(process.env.TMDB_KEY || 'c6bf52a42e8b231bfc29314d0f99cbd3');
-var _ = require("lodash"),
+    tvdb = new TVDBClient(process.env.TVDB_KEY || "5665D3A6E50F1BBB"),
+    _ = require("lodash"),
     tmdb = require('tmdbv3').init(process.env.TMDB_KEY || 'c6bf52a42e8b231bfc29314d0f99cbd3');
+//var MovieDB = require('moviedb')(process.env.TMDB_KEY || 'c6bf52a42e8b231bfc29314d0f99cbd3');
 
 function findBannerTvshow(r, next){
-    tvdb.getSeries(r.series || r.title, function(err, results) {
+    tvdb.getSeriesByName(r.series || r.title, function(err, results) {
         var tvshow = results && results[0];
         /*
 SeriesName: "Elementary"

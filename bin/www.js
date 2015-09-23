@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env nodeBU
 var debug = require('debug')('expressapp');
 var app = require('../app');
 

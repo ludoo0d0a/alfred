@@ -1,0 +1,11 @@
+{
+  "settings": {
+    "path": {
+      "download": "/home/ubuntu/workspace/a_movies/download",
+      "tvshow": "/home/ubuntu/workspace/a_movies/series/",
+      "movie": "/home/ubuntu/workspace/a_movies/movies/"
+    },
+    "delay": "12h",
+    "minsize": -1
+  }
+}
