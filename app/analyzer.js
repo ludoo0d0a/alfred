@@ -91,6 +91,11 @@ exports.analyze = function(opts, req, callback){
       console.log('Start detectfiles');
       async.map(files, guessit.guess, next);
     }
+    
+    //Remove [ source ] xxx.via
+    function cleanoutputfile(name){
+      return name.replace(/^\[[^\]]+\]/, '').trim();
+    }
   
     function moveFiles(wfiles, next){
       console.log('Start movefiles okMove=',okMove);
@@ -112,7 +117,7 @@ exports.analyze = function(opts, req, callback){
             });
           }
           
-          var dest = path.join(dirout,wfile.basename),
+          var dest = path.join(dirout,cleanoutputfile(wfile.basename)),
           f = path.join(dir,wfile.filename);
           
           wfile.source = f;
