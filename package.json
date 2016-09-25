@@ -13,6 +13,7 @@
     "change-case": "^2.3.1",
     "cookie-parser": "^1.4.0",
     "debug": "~2.2.0",
+    "episode-parser": "^1.2.0",
     "express": "^4.12.4",
     "fs-extra": "^0.26.5",
     "glob": "^6.0.4",
@@ -21,13 +22,14 @@
     "lodash": "^4.3.0",
     "modernizr": "^3.0.0-alpha.4",
     "morgan": "^1.6.1",
-    "moviedb": "^0.2.0",
+    "moviedb": "^0.2.6",
     "nconf": "^0.8.0",
     "node-tvdb": "^1.4.0",
     "request": "^2.57.0",
     "serve-favicon": "^2.3.0",
     "swig": "~1.4.2",
     "tmdbv3": "^0.1.2",
+    "torrent-name-parser": "^0.6.5",
     "yargs": "^3.10.0"
   },
   "devDependencies": {

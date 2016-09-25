@@ -1,16 +1,17 @@
 'use strict'
 
 var request = require('request'),
+  parser = require('episode-parser'),
   path = require('path'),
   _ = require('lodash');
 
 exports.guess = function(filename, next){
     var basename = path.basename(filename); 
-    /console.log('search on guessit.io : ', filename);
-    request('http://guessit.io/guess?filename='+basename, function (error, response, body) {
+    console.log('search on themoviedb.org : ', filename);
+    mdb.searchMulti({query:basename}, function (error, response) {
       //console.log('...guessed ', filename);
       if (!error && response.statusCode == 200) {
-        var json = JSON.parse(body);
+        var json = JSON.parse(response.responseText);
         var o = _.merge({filename:filename, basename:basename}, json);
 
         //tvshow
@@ -25,7 +26,7 @@ exports.guess = function(filename, next){
         o.lead = o.Network||''; 
         next(null, o);
       }else{
-        next({error:error, statusCode:response.statusCode, response:response, text:'guessit.io is unreachable !!'});
+        next({error:error, query:basename, statusCode:response.statusCode, response:response, text:'themoviedb.org is unreachable !!'});
       }
     });
 };

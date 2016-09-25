@@ -10,7 +10,8 @@ var path = require('path'),
   path= require('path'),
   changeCase = require('change-case'),
   _ = require('lodash'),
-  guessit = require('./guessit'),
+  //guessit = require('./guessit'),
+  guessit = require('./moviedb'),
   tvbanner = require('./tvbanner'),
   jsonfile = require('jsonfile');
 
