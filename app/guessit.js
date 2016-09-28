@@ -15,6 +15,7 @@ exports.guess = function(filename, next){
 
         //tvshow
         if (o.type==='episode'){
+          //title, episode_title
           o.lead = o.Network||''; 
           if (o.language){
             o.lead+= '('+o.language+')';

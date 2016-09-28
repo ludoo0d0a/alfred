@@ -1,7 +1,8 @@
 'use strict'
 
 var request = require('request'),
-  mdb = require('moviedb')('c6bf52a42e8b231bfc29314d0f99cbd3'),
+  config = require('../data/config.json'),
+  mdb = require('moviedb')(process.env.TMDB_KEY ||  config.keys.tmdb),
   parser = require('episode-parser'),
   ptn = require('torrent-name-parser'),
   path = require('path'),
@@ -19,8 +20,8 @@ var request = require('request'),
 
 exports.guess = function(filename, next){
     var basename = path.basename(filename); 
-    console.log(' ');
-     console.log('search on themoviedb.org : ', basename);
+    console.log('parse filename ', basename);
+     
 //https://www.npmjs.com/package/torrent-name-parser
     /*
 { season: 5,
@@ -32,20 +33,25 @@ exports.guess = function(filename, next){
   title: 'The Staying Alive' }
 */
     var query = basename, media = ptn(basename);
-    console.log('media: ', media);
     if (media){
-      query = cleanFilename(media.title);
+      _.assign(media, {
+        type: media.episode?'episode':'movie',
+        basename: basename,
+        filename: filename,
+        _title: media.title,
+        title: cleanFilename(media.title)
+      });
+      console.log('media: ', media);
+      next(null, media);
     }else{
-      query = cleanFilename(basename);
-    }
-
-    console.log('search moviedb =', basename, query);
-    mdb.searchMulti({query:query}, function (error, response) {
-      //console.log('...guessed ', response);
-      if (error){
-        next({error:error, query:query, basename:basename, media:media, response:response, text:'themoviedb.org failed !!'});
-      }else if (response.total_results>=1) {
-        var json = response.results[0];
+       query = cleanFilename(basename);
+      console.log('search on themoviedb.org : ', basename);
+      mdb.searchMulti({query:query}, function (error, response) {
+        //console.log('...guessed ', response);
+        if (error){
+          next({error:error, query:query, basename:basename, media:media, response:response, text:'themoviedb.org failed !!'});
+        }else if (response.total_results>=1) {
+          var json = response.results[0];
 //http://api.themoviedb.org/3/search/multi?api_key=c6bf52a42e8b231bfc29314d0f99cbd3&query=X-Men%20Apocalypse.
 /*
 poster_path: "/zSouWWrySXshPCT4t3UKCQGayyo.jpg",
@@ -78,9 +84,11 @@ vote_average: 6.09
         }
         //movie
         o.lead = o.Network||''; 
+        console.log('Detected ', o.title, basename);
         next(null, o);
       }else{
         next({error:error, query:query, basename:basename, media:media, text:'themoviedb.org has no result  !!'});
       }
     });
+  }
 };

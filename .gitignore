@@ -1,5 +1,5 @@
 node_modules/
 public/components
 .sass-cache
-
-data/db.*
+data/db.json
+data/config.json

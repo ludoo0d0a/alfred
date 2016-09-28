@@ -18,11 +18,14 @@ var path = require('path'),
 var DB_PATH = path.join(__dirname, '/../data/db.json'); //db.json
 
 function printout(res, err, files){
+  console.log();
   if (err){
-      res.send(err);
-    }else{
-      res.json(files);
-    }
+    console.error('return error', err, files);
+    res.send(err);
+  }else{
+    console.log('return JSON', files);
+    res.json(files);
+  }
 }
 
 exports.execute = function(opts, req, res){
@@ -64,7 +67,7 @@ exports.analyze = function(opts, req, callback){
     function scan(next){
       var dir = settings.path.download;
       
-      console.log('Start scan %s', okMove);
+      console.log('[1/5] Start scan %s', okMove);
       
       glob('**/*.{mkv,avi,mp4,wmv}', {cwd:dir}, function (err, files) {
         var movies = files;
@@ -89,7 +92,7 @@ exports.analyze = function(opts, req, callback){
     }
   
     function detectFiles(files, next){
-      console.log('Start detectfiles');
+      console.log('[2/5] Start detectfiles');
       async.map(files, guessit.guess, next);
     }
     
@@ -99,7 +102,7 @@ exports.analyze = function(opts, req, callback){
     }
   
     function moveFiles(wfiles, next){
-      console.log('Start movefiles okMove=',okMove);
+      console.log('[3/5] Start movefiles okMove=',okMove);
       var type='', newdirs=[], moves = [];
       var dir = settings.path.download;
       
@@ -108,8 +111,8 @@ exports.analyze = function(opts, req, callback){
         if ((type=mapsType[wfile.type])){
           var dirout = settings.path[type];
           
-          if (wfile.series){
-            dirout=path.join(dirout, changeCase.titleCase(wfile.series));
+          if (wfile.type==='episode'){
+            dirout=path.join(dirout, changeCase.titleCase(wfile.title));
             fs.exists(dirout, function(exists){
               if (!exists){
                 console.warn('Will create dir %s',dirout);
@@ -118,8 +121,8 @@ exports.analyze = function(opts, req, callback){
             });
           }
           
-          var dest = path.join(dirout,cleanoutputfile(wfile.basename)),
-          f = path.join(dir,wfile.filename);
+          var dest = path.join(dirout,cleanoutputfile(wfile.basename));
+          var f = path.join(dir,wfile.filename);
           
           wfile.source = f;
           wfile.dest = dest;
@@ -130,13 +133,12 @@ exports.analyze = function(opts, req, callback){
           moves.push(function(next){
               console.log('move (%s) %s ', okMove, dest);
               
-              fs.exists(dest, function(err){
-                if (err){
-                  //TODO: if already exists err.code=='EEXIST'
-                  console.error('Exists : Destination %s already exists or error', dest, err);
-                  wfile.error = {code:err.code};
+              fs.exists(dest, function(exists){
+                if (exists){
+                  console.error('Exists : Destination %s already exists', dest);
+                  wfile.error = {code:99};
                 }
-                wfile.destexists = !err;
+                wfile.destexists = exists;
                 wfile.status='exists';
 
                 if (okMove){
@@ -206,18 +208,26 @@ exports.analyze = function(opts, req, callback){
     }
     
     function savelog(r, next){
-      console.log('save log');
+      console.log('[4/5] save log');
       r.date = new Date();
       
-      if (!_.isEmpty(r.moves)){
+      jsonfile.writeFileSync(DB_PATH, r);
+      if (false && !_.isEmpty(r.moves)){
         //No moved files
         //Save log
+        console.log(' Will save log into ', DB_PATH, r);
         jsonfile.writeFile(DB_PATH, r, function(err) {
-          console.log(err);
+          if (err){
+            console.error(' Error to save log into ', DB_PATH);
+            console.log(err);
+          }else{
+            console.log(' Saved log into ', DB_PATH);
+          }
           next(err, r);
         });
       }else{
         //No save, just forward
+        console.log(' Nothing to move');
         next(null, r);
       }
     }
@@ -227,7 +237,11 @@ exports.analyze = function(opts, req, callback){
 
 function formatOutput(r, next){
   var files = r.moves;
-  async.map(files, tvbanner.findBanner, next);
+  console.log('[5/5] findBanner for '+files.length+' files');
+  async.map(files, tvbanner.findBanner, function(err, o){
+    console.log('Banners search finished');
+    next(err,o);
+  });
 }
 
 function getFilesizeInBytes(filename) {

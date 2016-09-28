@@ -1,14 +1,26 @@
 'use strict'
 
-var TVDBClient = require("node-tvdb"),
-    tvdb = new TVDBClient(process.env.TVDB_KEY || "5665D3A6E50F1BBB"),
+var config = require('../data/config.json'),
+    TVDB = require('node-tvdb'),
+    tvdb = new TVDB(process.env.TVDB_KEY || config.keys.tvdb),
     _ = require("lodash"),
-    tmdb = require('tmdbv3').init(process.env.TMDB_KEY || 'c6bf52a42e8b231bfc29314d0f99cbd3');
-//var MovieDB = require('moviedb')(process.env.TMDB_KEY || 'c6bf52a42e8b231bfc29314d0f99cbd3');
+    tmdb = require('tmdbv3').init(process.env.TMDB_KEY ||  config.keys.tmdb);
 
 function findBannerTvshow(r, next){
-    tvdb.getSeriesByName(r.series || r.title, function(err, results) {
+    console.log('find tvdb banner for tvshow: ', r.title);
+// r.link='';
+// next(null, r);
+// return;
+
+    tvdb.getSeriesByName(r.title, function(err, results) {
+        console.log('>> ', r, err, results);
+        if (err){
+            console.error('tvbd search tvshow error on '+r.title, err);
+            next(err, null);
+            return;
+        }
         var tvshow = results && results[0];
+        console.log('Found tvshow '+r.title, tvshow);
         /*
 SeriesName: "Elementary"
 IMDB_ID: "tt2191671"
@@ -33,10 +45,21 @@ language: "en"
 function findBannerMovie(r, next){
     var format = 'w500';
     try{
+        console.log('find tmdb banner for movie ', r.title);
         tmdb.configuration(function(err, res){
+            if (err){
+                console.error('tmbd config error', err);
+                next(err, null);
+                return;
+            }
             var config = res;
             tmdb.search.movie(r.title, function(err, response) {
             //MovieDB.searchMovie({query: r.title}, function(err, response) {
+                if (err){
+                    console.error('tmbd search movie error on '+r.title, err);
+                    next(err, null);
+                    return;
+                }
                 var movie = response.results && response.results[0];
                 //original_title, poster_path
                 //tmdb.movie.info(res.id, function(err, movie){
@@ -51,19 +74,20 @@ function findBannerMovie(r, next){
             });
         });
     } catch(e){
-           next(e, null);
+        next(e, null);
     }
 }
 function idCreator(o, next){
-    o=o||{};
-    o.badgeclass = 'icon-film';
-    
-    if (o.type==='episode'){
-        o.id = [o.seriesid, o.episodeNumber, o.language].join('_');
-        o.badgeclass='icon-tv';
-    }
-    if (!o.id){
-      o.id = (o.title || o.basename).replace(/\s/g, '_');
+    if (o){
+        o.badgeclass = 'icon-film';
+        
+        if (o.type==='episode'){
+            o.id = [o.seriesid, o.episodeNumber, o.language].join('_');
+            o.badgeclass='icon-tv';
+        }
+        if (!o.id){
+          o.id = (o.title || o.basename).replace(/\s/g, '_');
+        }
     }
     next(null, o);
 }
@@ -71,6 +95,7 @@ function idCreator(o, next){
 exports.findBanner = function(o, next){
     var r = o;
     if (!o){
+        console.log('no banner to find');
         next(null);//no banner, bypass
         return;
     }

@@ -23,6 +23,10 @@ nconf.defaults({
         delay: "12h",
         minsize: 50,
         minsize: -1
+    },
+    keys: {
+        tvdb: '',
+        tmdb: ''
     }
 });
 

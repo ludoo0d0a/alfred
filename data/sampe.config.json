@@ -7,5 +7,9 @@
     },
     "delay": "12h",
     "minsize": -1
+  },
+  "keys": {
+  	"tvdb" : "123456ADCDEF",
+  	"tmdb" : "123456ADCDEF123456ADCDEF"
   }
 }

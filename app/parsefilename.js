@@ -1,6 +1,8 @@
 'use strict'
 
 var request = require('request'),
+  config = require('../data/config.json'),
+  mdb = require('moviedb')(process.env.TMDB_KEY ||  config.keys.tmdb),
   parser = require('episode-parser'),
   path = require('path'),
   _ = require('lodash');

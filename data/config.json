@@ -3,9 +3,13 @@
     "path": {
       "download": "/volume1/video/download/",
       "tvshow": "/volume1/series/",
-      "movie": "/volume1/movies/"
+      "movie": "/volume1/movies/2016/"
     },
     "delay": "12h",
     "minsize": -1
+  },
+  "keys": {
+  	"tvdb" : "5665D3A6E50F1BBB",
+  	"tmdb" : "c6bf52a42e8b231bfc29314d0f99cbd3"
   }
 }
