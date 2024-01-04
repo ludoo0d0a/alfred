@@ -48,7 +48,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [ludoo0d0a/alfred](https://github.com/ludoo0d0a/alfred)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|44<br/>Tools used|12/14/23 <br/>Report generated|
+|46<br/>Tools used|01/04/24 <br/>Report generated|
 |------|------|
 </div>
 
@@ -238,9 +238,9 @@ Full tech stack [here](/techstack.md)
 </table>
 
 
-## <img src='https://img.stackshare.io/group.svg' /> Open source packages (24)</h2>
+## <img src='https://img.stackshare.io/group.svg' /> Open source packages (26)</h2>
 
-## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (18)
+## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (20)
 
 |NAME|VERSION|LAST UPDATED|LAST UPDATED BY|LICENSE|VULNERABILITIES|
 |:------|:------|:------|:------|:------|:------|
@@ -259,8 +259,10 @@ Full tech stack [here](/techstack.md)
 |[gulp-rename](https://www.npmjs.com/gulp-rename)|v1.2.2|09/28/16|ludoo0d0a |MIT|N/A|
 |[jsonfile](https://www.npmjs.com/jsonfile)|v2.4.0|09/28/16|ludoo0d0a |MIT|N/A|
 |[morgan](https://www.npmjs.com/morgan)|v1.7.0|09/28/16|ludoo0d0a |MIT|[CVE-2019-5413](https://github.com/advisories/GHSA-gwg9-rgvj-4h5j) (Critical)|
+|[nconf](https://www.npmjs.com/nconf)|v0.8.4|09/28/16|ludoo0d0a |MIT|[CVE-2022-21803](https://github.com/advisories/GHSA-6xwr-q98w-rvg7) (High)|
 |[request](https://www.npmjs.com/request)|v2.75.0|09/28/16|ludoo0d0a |Apache-2.0|[CVE-2023-28155](https://github.com/advisories/GHSA-p8p7-x288-28g6) (Moderate)|
 |[serve-favicon](https://www.npmjs.com/serve-favicon)|v2.3.0|09/19/15|LudoO |MIT|N/A|
+|[swig](https://www.npmjs.com/swig)|v1.4.2|05/01/15|LudoO |MIT|[CVE-2023-25345](https://github.com/advisories/GHSA-2rq5-699j-x7p6) (High)|
 |[yargs](https://www.npmjs.com/yargs)|v5.0.0|09/28/16|ludoo0d0a |MIT|N/A|
 
 
