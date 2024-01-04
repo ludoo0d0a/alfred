@@ -1,11 +1,12 @@
 repo_name: ludoo0d0a/alfred
-report_id: 25ed291e02615b884174f26ad104d578
+report_id: df1702aa8abcbed5667d6954781d1be4
+version: 0.1
 repo_type: Public
-timestamp: '2023-12-14T10:00:26+00:00'
+timestamp: '2024-01-04T15:15:45+00:00'
 requested_by: ludoo0d0a
 provider: github
 branch: master
-detected_tools_count: 44
+detected_tools_count: 46
 tools:
 - name: CSS 3
   description: The latest evolution of the Cascading Style Sheets language
@@ -15,6 +16,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/6727/css.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred
   detection_source: Repo Metadata
 - name: JavaScript
   description: Lightweight, interpreted, object-oriented language with first-class
@@ -25,6 +27,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/ludoo0d0a/alfred
   detection_source: Repo Metadata
 - name: ".NET"
   description: A free, cross-platform, open source developer platform for building
@@ -36,6 +39,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Frameworks (Full Stack)
   image_url: https://img.stackshare.io/service/1014/IoPy1dce_400x400.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
   detection_source: package.json
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
@@ -49,6 +53,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Javascript MVC Frameworks
   image_url: https://img.stackshare.io/service/1017/Screen_Shot_2012-04-28_at_8.52.15_PM.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/bower.json
   detection_source: bower.json
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
@@ -104,6 +109,7 @@ tools:
   category: Data Stores
   sub_category: Database Tools
   image_url: https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/public/robots.txt
   detection_source: public/robots.txt
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
@@ -115,6 +121,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred
   detection_source: Repo Metadata
 - name: LiveReload
   description: CSS edits and image changes apply live. CoffeeScript, SASS, LESS and
@@ -125,6 +132,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Live Reloading
   image_url: https://img.stackshare.io/service/2601/128.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
   detection_source: package.json
   last_updated_by: ludoo0d0a
   last_updated_on: 2016-09-28 21:10:13.000000000 Z
@@ -136,6 +144,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Package Managers
   image_url: https://img.stackshare.io/service/2637/6I3oEOP4_400x400.jpg
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
   detection_source: package.json
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
@@ -162,6 +171,7 @@ tools:
   category: Monitoring
   sub_category: node.js Application Monitoring
   image_url: https://img.stackshare.io/service/5577/preview.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
   detection_source: package.json
   last_updated_by: ludoo0d0a
   last_updated_on: 2016-09-28 21:10:13.000000000 Z
@@ -173,6 +183,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Front End Package Manager
   image_url: https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
   detection_source: package.json
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
@@ -182,6 +193,7 @@ tools:
   open_source: false
   hosted_saas: false
   image_url: https://img.stackshare.io/service/2270/no-img-open-source.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/public/404.html
   detection_source: public/404.html
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
@@ -193,6 +205,7 @@ tools:
   category: Communications
   sub_category: Large Language Model Tools
   image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/public/robots.txt
   detection_source: public/robots.txt
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
@@ -229,6 +242,7 @@ tools:
   open_source: false
   hosted_saas: false
   image_url: https://img.stackshare.io/service/2435/pBeeJQDQ_normal.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
   detection_source: package.json
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
@@ -237,6 +251,7 @@ tools:
   open_source: false
   hosted_saas: false
   image_url: https://img.stackshare.io/service/7721/4624.jpeg
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
   detection_source: package.json
   last_updated_by: ludoo0d0a
   last_updated_on: 2016-09-28 21:10:13.000000000 Z
@@ -485,6 +500,27 @@ tools:
     detected_date: Aug 22
     severity: critical
     first_patched: 1.9.1
+- name: nconf
+  description: Hierarchical node.js configuration with files
+  package_url: https://www.npmjs.com/nconf
+  version: 0.8.4
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16591/default_50c9ed1615a25628505ab53def64d82450ced26b.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
+  detection_source: package.json
+  last_updated_by: ludoo0d0a
+  last_updated_on: 2016-09-28 21:10:13.000000000 Z
+  vulnerabilities:
+  - name: Prototype Pollution in nconf
+    cve_id: CVE-2022-21803
+    cve_url: https://github.com/advisories/GHSA-6xwr-q98w-rvg7
+    detected_date: Apr 27
+    severity: high
+    first_patched: 0.11.4
 - name: request
   description: Simplified HTTP request client
   package_url: https://www.npmjs.com/request
@@ -520,6 +556,27 @@ tools:
   detection_source: package.json
   last_updated_by: LudoO
   last_updated_on: 2015-09-19 17:00:45.000000000 Z
+- name: swig
+  description: A simple
+  package_url: https://www.npmjs.com/swig
+  version: 1.4.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16899/default_e65289f03a07faa8d49ce16c483f18c4f8a98db9.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/package.json
+  detection_source: package.json
+  last_updated_by: LudoO
+  last_updated_on: 2015-05-01 13:19:59.000000000 Z
+  vulnerabilities:
+  - name: 'Arbitrary local file read vulnerability during template rendering '
+    cve_id: CVE-2023-25345
+    cve_url: https://github.com/advisories/GHSA-2rq5-699j-x7p6
+    detected_date: Mar 17
+    severity: high
+    first_patched: 
 - name: yargs
   description: Yargs the modern, pirate-themed, successor to optimist
   package_url: https://www.npmjs.com/yargs
@@ -542,6 +599,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Package Managers
   image_url: https://img.stackshare.io/package/bower/image.png
+  detection_source_url: https://github.com/ludoo0d0a/alfred/blob/master/bower.json
   detection_source: bower.json
   last_updated_by: LudoO
   last_updated_on: 2015-05-01 13:19:59.000000000 Z
